@@ -27,7 +27,7 @@ router.get('/', auth, async (req, res) => {
 router.post('/',
     [
         check('email', 'Please include a valid Email').isEmail(),
-        check('password', 'Password is required').exists()
+        check('password', 'Password is required').not().isEmpty()
     ],
     async (req, res) => {
         const error = validationResult(req);
@@ -47,7 +47,7 @@ router.post('/',
             //  Dencrypt Password
             const isMatch = await bcrypt.compare(password, user.password);
 
-            if(!isMatch){
+            if (!isMatch) {
                 return res.status(400).json({ error: [{ msg: 'Invalid Email/Password' }] })
             }
 
