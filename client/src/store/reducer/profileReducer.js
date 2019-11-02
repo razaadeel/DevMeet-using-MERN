@@ -2,7 +2,9 @@ import {
     GET_PROFILE,
     PROFILE_ERROR,
     CLEAR_PROFILE,
-    UPDATE_PROFILE
+    UPDATE_PROFILE,
+    GET_PROFILES,
+    GET_REPOS
 } from '../constant';
 
 const initialState = {
@@ -10,7 +12,8 @@ const initialState = {
     profiles: [],
     repos: [],
     loading: true,
-    err: {}
+    err: {},
+    fetchingRepos: true
 }
 
 
@@ -24,11 +27,18 @@ export default function (state = initialState, action) {
                 profile: payload,
                 loading: false
             }
+        case GET_PROFILES:
+            return {
+                ...state,
+                profiles: payload,
+                loading: false
+            }
         case PROFILE_ERROR:
             return {
                 ...state,
                 err: payload,
-                loading: false
+                loading: false,
+                fetchingRepos: false
             }
         case CLEAR_PROFILE:
             return {
@@ -37,7 +47,15 @@ export default function (state = initialState, action) {
                 profiles: [],
                 repos: [],
                 loading: true,
-                err: {}
+                err: {},
+                fetchingRepos: true
+            }
+        case GET_REPOS:
+            return {
+                ...state, 
+                repos: payload,
+                loading: false,
+                fetchingRepos: false
             }
         default:
             return state

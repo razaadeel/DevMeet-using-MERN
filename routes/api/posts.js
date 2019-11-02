@@ -22,6 +22,7 @@ router.post('/',
         }
 
         try {
+            console.log(req.body)
             const user = await User.findById(req.user.id).select('-password');
 
             const newPost = new Post(
@@ -126,7 +127,6 @@ router.put('/like/:id', auth, async (req, res) => {
         res.json(post.likes);
 
     } catch (err) {
-        console.log(err.message);
         res.status(500).send('server error');
     }
 });
@@ -147,7 +147,7 @@ router.put('/unlike/:id', auth, async (req, res) => {
         post.likes = post.likes.filter(like => {
             return like.user.toString() != req.user.id;
         });
-        console.log(post.likes);
+        
         await post.save();
         res.json(post.likes);
 
@@ -173,7 +173,6 @@ router.post('/comment/:post_id',
         try {
             const user = await User.findById(req.user.id).select('-password');
             const post = await Post.findById(req.params.post_id);
-
             const newComment = {
                 text: req.body.text,
                 name: user.name,
@@ -188,8 +187,8 @@ router.post('/comment/:post_id',
             res.json(post.comments);
 
         } catch (err) {
-            console.log(err.message);
             res.status(500).send('server error');
+            console.log(err.message);
         }
 
     });

@@ -7,6 +7,7 @@ const config = require('config');
 
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
+const Post = require('../../models/Post');
 
 
 //  route GET api/profile/me
@@ -19,6 +20,7 @@ router.get('/me', auth, async (req, res) => {
         if (!profile) {
             return res.status(400).json({ msg: 'There is no profile for this user' });
         }
+
 
         res.json(profile);
 
@@ -145,7 +147,8 @@ router.delete('/', auth, async (req, res) => {
         await Profile.findOneAndRemove({ user: req.user.id });
         // Remove User
         await User.findOneAndRemove({ _id: req.user.id });
-
+        //Remove Post
+        await Post.deleteMany({ user: req.user.id })
 
         res.json({ msg: 'User deleted' });
     }
@@ -317,11 +320,8 @@ router.delete('/education/:edu_id', auth, async (req, res) => {
 router.get('/github/:username', (req, res) => {
     try {
         const options = {
-            uri: `https://api.github.com/users/${
-                req.params.username
-                }/repos?per_page=5&sort=created:asc&client_id=${config.get(
-                    'githubClientId'
-                )}&client_secret=${config.get('githubSecret')}`,
+            uri: `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc&client_id=${config.get(
+                'githubClientId')}&client_secret=${config.get('githubSecret')}`,
             method: 'GET',
             headers: { 'user-agent': 'node.js' }
         };
@@ -332,8 +332,9 @@ router.get('/github/:username', (req, res) => {
             if (response.statusCode !== 200) {
                 res.status(404).json({ msg: 'No github profile found' })
             }
-
-            res.json(JSON.parse(body));
+            else {
+                res.json(JSON.parse(body));
+            }
         });
 
     }

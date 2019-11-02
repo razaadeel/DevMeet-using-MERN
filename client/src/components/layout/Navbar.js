@@ -16,7 +16,7 @@ class Navbar extends React.Component {
                     !this.props.isAuthenticated ?
                         <ul>
                             <li>
-                                <Link to="!#">
+                                <Link to="/profiles">
                                     Developers
                                 </Link>
                             </li>
@@ -37,6 +37,16 @@ class Navbar extends React.Component {
                                 <Link to="/dashboard">
                                     <i className="fas fa-user">{'  '}</i>
                                     <span className="hide-sm"> Dashboard </span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/posts">
+                                    Posts
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/profiles">
+                                    Developers
                                 </Link>
                             </li>
                             <li>

@@ -1,20 +1,21 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
+import { deleteEducation } from '../../store/action/profileAction';
 
-export default class Education extends Component {
+class Education extends Component {
     render() {
-        const { education } = this.props;
+        const { education, deleteEducation } = this.props;
         const educations = education.map(edu => (
             <tr key={edu._id}>
                 <td>{edu.school}</td>
                 <td className="hide-sm">{edu.degree}</td>
                 <td>
-                    <Moment format="YYYY/MM/DD">{edu.from}</Moment> - 
+                    <Moment format="YYYY/MM/DD">{edu.from}</Moment> -
                     {edu.to === null ? ('Present') : (<Moment format="YYYY/MM/DD">{edu.to}</Moment>)}
                 </td>
                 <td>
-                    <button className="btn btn-danger">Delete</button>
+                    <button onClick={() => deleteEducation(edu._id)} className="btn btn-danger">Delete</button>
                 </td>
             </tr>
         ))
@@ -38,3 +39,5 @@ export default class Education extends Component {
         )
     }
 }
+
+export default connect(null, { deleteEducation })(Education);

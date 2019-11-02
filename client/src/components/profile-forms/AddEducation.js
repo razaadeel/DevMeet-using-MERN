@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { addEducation } from '../../store/action/profileAction';
 
@@ -54,7 +54,7 @@ const AddEducation = ({addEducation, history}) => {
                         setFormData({ ...formData, current: !current });
                         toggleDisabled(!toDateDisabled);
                     }
-                    } /> {' '} Current Job</p>
+                    } /> {' '} Current Institute</p>
                 </div>
                 <div className="form-group">
                     <h4>To Date</h4>

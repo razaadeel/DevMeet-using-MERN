@@ -1,20 +1,21 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
+import { deleteExperience } from '../../store/action/profileAction';
 
-export default class Experience extends Component {
+class Experience extends Component {
     render() {
-        const { experience } = this.props;
+        const { experience, deleteExperience } = this.props;
         const experiences = experience.map(exp => (
             <tr key={exp._id}>
                 <td>{exp.company}</td>
                 <td className="hide-sm">{exp.title}</td>
                 <td>
-                    <Moment format="YYYY/MM/DD">{exp.from}</Moment> - 
+                    <Moment format="YYYY/MM/DD">{exp.from}</Moment> -
                     {exp.to === null ? ('Present') : (<Moment format="YYYY/MM/DD">{exp.to}</Moment>)}
                 </td>
                 <td>
-                    <button className="btn btn-danger">Delete</button>
+                    <button onClick={() => deleteExperience(exp._id)} className="btn btn-danger">Delete</button>
                 </td>
             </tr>
         ))
@@ -38,3 +39,5 @@ export default class Experience extends Component {
         )
     }
 }
+
+export default connect(null, { deleteExperience })(Experience);
